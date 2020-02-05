@@ -9,15 +9,11 @@ const createNode = val => {
 
 const findDistance = (n1, n2) => {
   let dist = 0;
-  if (n1 === n2) return dist;
 
   let next = [];
-  next.push(...n1.neighbors);
+  next.push(n1);
   let currLength = next.length;
-  dist++;
   const visited = new Set();
-
-  visited.add(n1);
 
   while (next.length > 0) {
     let currNode = next.shift();
@@ -56,4 +52,4 @@ six.putNeighbors(three);
 seven.putNeighbors(eight);
 eight.putNeighbors(seven);
 
-console.log(findDistance(two, four));
+console.log(findDistance(two, seven));
