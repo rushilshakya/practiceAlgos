@@ -10,6 +10,33 @@ const findLoopLocation = (linkedList, matchPtr) => {
   }
 };
 
+const findLoopLocationOptimized = (head, matchLocation) => {
+  //find loop length.  this is count from matchLocation to the point before
+  let loopLength = 1;
+  let pointInLoop = matchLocation;
+  while (pointInLoop.next !== matchLocation) {
+    loopLength++;
+    pointInLoop = pointInLoop.next;
+  }
+
+  //now, start one pointer in the head, another at head + counter
+  let ptr1 = head;
+  let ptr2 = head;
+  while (loopLength > 0) {
+    ptr2 = ptr2.next;
+    loopLength--;
+  }
+
+  //start walking both pointers at same speed
+  //where they meet is the starting point
+
+  while (ptr1 !== ptr2) {
+    ptr1 = ptr1.next;
+    ptr2 = ptr2.next;
+  }
+  return ptr1;
+};
+
 const findLoopStart = linkedList => {
   let slowPtr = linkedList;
   let fastPtr = linkedList;
@@ -25,7 +52,7 @@ const findLoopStart = linkedList => {
     }
   }
   if (matchPtr === null) return -1;
-  return findLoopLocation(linkedList, matchPtr);
+  return findLoopLocationOptimized(linkedList, matchPtr);
 };
 
 const createLLNode = (val, next = null) => {
