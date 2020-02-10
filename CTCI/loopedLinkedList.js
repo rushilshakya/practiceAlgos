@@ -48,6 +48,6 @@ const n3 = createLLNode(3, n4);
 const n2 = createLLNode(2, n3);
 const n1 = createLLNode(1, n2);
 const n0 = createLLNode(0, n1);
-n8.setNext(n8);
+n8.setNext(n4);
 
 console.log(findLoopStart(n0));
