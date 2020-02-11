@@ -1,5 +1,4 @@
 const quickSort = (disArray, start = 0, end = disArray.length - 1) => {
-  // console.log('starting ', disArray, start, end);
   if (start >= end) return;
 
   let mid = Math.floor((start + end) / 2);
@@ -18,7 +17,6 @@ const quickSort = (disArray, start = 0, end = disArray.length - 1) => {
       higherPtr--;
     }
   }
-  // console.log('ending ', disArray, start, higherPtr, end);
   quickSort(disArray, start, lowerPtr - 1);
   quickSort(disArray, lowerPtr, end);
 };
