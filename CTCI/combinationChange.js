@@ -1,4 +1,31 @@
+//given a set of coin changes, and a total amount
+//how many ways can the changes be given to amount to the total?
+
 const coins = [1, 5, 10, 25];
+
+const recMemo = {};
+
+const coinCombosRec = (val, index = 0) => {
+  if (val === 0) return 1;
+  if (index > coins.length - 1) return 0;
+
+  let amountWithCoin = 0;
+  let ways = 0;
+
+  while (amountWithCoin <= val) {
+    let remaining = val - amountWithCoin;
+    let nxtIdx = index + 1;
+    if (!recMemo[remaining]) recMemo[remaining] = {};
+    if (!recMemo[remaining][nxtIdx]) {
+      recMemo[remaining][nxtIdx] = coinCombosRec(remaining, nxtIdx);
+    }
+    ways += recMemo[remaining][nxtIdx];
+    // ways += coinCombosRec(remaining, nxtIdx);
+    amountWithCoin += coins[index];
+  }
+
+  return ways;
+};
 
 const coinCombosDyn = val => {
   let allCombos = {
@@ -22,7 +49,9 @@ const coinCombosDyn = val => {
   return allCombos;
 };
 
-const val = 10;
-console.log(coinCombosDyn(val));
+const val = 25;
+// console.log(coinCombosDyn(val));
+console.log(coinCombosRec(val));
+// console.log(recMemo);
 // console.log(makeBestChangeRec(val));
 // console.log(bestChangeRec);
