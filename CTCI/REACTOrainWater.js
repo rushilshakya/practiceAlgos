@@ -32,7 +32,7 @@ const rainWaterRecursive = (blocks, height = Math.max(...blocks)) => {
 
   for (let i = 0; i < blocks.length; i++) {
     if (blocks[i] >= height) {
-      if (previousBlock !== undefined) vol += i - (previousBlock + 1);
+      if (previousBlock) vol += i - (previousBlock + 1);
       previousBlock = i;
     }
   }
@@ -40,9 +40,26 @@ const rainWaterRecursive = (blocks, height = Math.max(...blocks)) => {
   return vol + rainWaterRecursive(blocks, height - 1);
 };
 
+const rainWaterRecursiveReduce = (blocks, height = Math.max(...blocks)) => {
+  if (height < 1) return 0;
+  let previousBlock;
+  let vol = 0;
+
+  vol = blocks.reduce((sum, block, idx) => {
+    if (block >= height) {
+      if (previousBlock) sum += idx - (previousBlock + 1);
+      previousBlock = idx;
+    }
+    return sum;
+  }, 0);
+
+  return vol + rainWaterRecursiveReduce(blocks, height - 1);
+};
+
 const totalVol = someRoof => {
   // return rainWaterNaive(someRoof);
-  return rainWaterRecursive(someRoof);
+  // return rainWaterRecursive(someRoof);
+  return rainWaterRecursiveReduce(someRoof);
 };
 // vol = 7
 const a = [0, 0, 1, 2, 4, 3, 2, 5, 0, 0, 2, 1];
