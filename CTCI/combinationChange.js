@@ -4,6 +4,27 @@
 const coins = [1, 5, 10, 25];
 
 const recMemo = {};
+const recMemo2 = {};
+
+const coinCombosRec2 = (amount, changeIdx = 0) => {
+  if (amount < 0) return 0;
+  if (amount === 0) return 1;
+  let changeWays = 0;
+  let remaining = amount;
+  for (let i = changeIdx; i < coins.length; i++) {
+    let multiple = 0;
+    while (remaining >= 0) {
+      if (!recMemo2[remaining]) recMemo2[remaining] = {};
+      if (!recMemo2[remaining][i + 1]) {
+        recMemo2[remaining][i + 1] = coinCombosRec2(remaining, i + 1);
+      }
+      changeWays += recMemo2[remaining][i + 1];
+      multiple++;
+      remaining = amount - coins[i] * multiple;
+    }
+  }
+  return changeWays;
+};
 
 const coinCombosRec = (val, index = 0) => {
   if (val === 0) return 1;
@@ -73,7 +94,9 @@ const coinCombosDyn = val => {
 
 const val = 10;
 // console.log(coinCombosDyn(val));
-console.log(coinCombosRec(val));
+// console.log(coinCombosRec(val));
+console.log(coinCombosRec2(val));
 // console.log(recMemo);
+// console.log(recMemo2);
 // console.log(makeBestChangeRec(val));
 // console.log(bestChangeRec);
