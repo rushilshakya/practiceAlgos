@@ -73,31 +73,34 @@ const coinCombosDynOld = val => {
 
 const coinCombosDyn = val => {
   let allCombos = {
-    0: {},
+    0: { 0: 0, 1: 0, 2: 0, 3: 0 },
   };
   for (let i = 1; i <= val; i++) {
-    //at the current val, lets go through all the coins
     let combos = 0;
     for (let j = 0; j < coins.length; j++) {
-      //to look at the combos minus this coin
-      let minusCoin = i - coins[j];
-      //if the remaining val is more than equal to one
-      //then add that to our running count
-      if (minusCoin >= 0) {
-        combos += allCombos[minusCoin];
+      let minusCoin = val;
+      while (minusCoin >= 0) {
+        //check if the remaining val has a valid with remaining coins
+        if (
+          allCombos[minusCoin] !== undefined &&
+          allCombos[minusCoin][j] !== undefined
+        )
+          combos += allCombos[minusCoin][j];
+        minusCoin -= coins[j];
       }
+      if (!allCombos[i]) allCombos[i] = {};
+      allCombos[i][j] = combos;
     }
-    //now lets populate all combos for this val
-    allCombos[i] = combos;
   }
-  return allCombos[val];
+  return allCombos;
 };
 
-const val = 10;
+const val = 25;
 // console.log(coinCombosDyn(val));
 // console.log(coinCombosRec(val));
+console.log(coinCombosDyn(val));
 console.log(coinCombosRec2(val));
 // console.log(recMemo);
-// console.log(recMemo2);
+console.log(recMemo2);
 // console.log(makeBestChangeRec(val));
 // console.log(bestChangeRec);
