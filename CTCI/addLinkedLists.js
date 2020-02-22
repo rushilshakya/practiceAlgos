@@ -3,6 +3,7 @@ var addTwoNumbers = function(l1, l2) {
   let currentNode = summedNode;
   while (l1 !== null && l2 !== null) {
     let carryOver = 0;
+    //ok lets try a few things here
     let currTotal = l1.val + l2.val;
     if (currTotal > 9) {
       carryOver = 1;
